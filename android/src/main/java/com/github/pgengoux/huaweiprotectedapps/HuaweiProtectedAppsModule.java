@@ -51,7 +51,7 @@ public class HuaweiProtectedAppsModule extends ReactContextBaseJavaModule implem
                 huaweiProtectedApps();
             } else {
                 // Save "do not show again" flag automatically for non-Huawei devices to prevent unnecessary checks
-                promise.resolve(statusIntent)
+                promise.resolve(statusIntent);
             }
         }
     }
