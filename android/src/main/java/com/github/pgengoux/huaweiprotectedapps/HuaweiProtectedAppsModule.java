@@ -77,6 +77,9 @@ public class HuaweiProtectedAppsModule extends ReactContextBaseJavaModule implem
                             public void onClick(DialogInterface dialog, int which) {
                                 // Launch huawei Protected Apps Activity
                                 huaweiProtectedApps();
+                                //disable dialog when user click protector app only one time
+                                editor.putBoolean(saveIfSkip, true);
+                                editor.apply();
                             }
                         })
                         .setNegativeButton(negativeText, null)
