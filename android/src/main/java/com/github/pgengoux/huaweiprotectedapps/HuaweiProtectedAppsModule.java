@@ -43,6 +43,7 @@ public class HuaweiProtectedAppsModule extends ReactContextBaseJavaModule implem
     @ReactMethod
     public void AlertIfHuaweiDevice(final Promise promise) {
         if (1) {
+            Boolean statusIntent = false;
             Intent intent = new Intent();
             // Check if intent of the Huawei protected apps activity is callable
             intent.setClassName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity");
@@ -50,7 +51,7 @@ public class HuaweiProtectedAppsModule extends ReactContextBaseJavaModule implem
                 huaweiProtectedApps();
             } else {
                 // Save "do not show again" flag automatically for non-Huawei devices to prevent unnecessary checks
-                promise.resolve(false)
+                promise.resolve(statusIntent)
             }
         }
     }
