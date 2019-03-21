@@ -1,32 +1,12 @@
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        mavenLocal()
-        mavenCentral()
-        maven { url "$rootDir/../node_modules/react-native/android" }
-        maven { url 'https://maven.google.com' }
-        maven { url "https://jitpack.io" }
-        maven { url 'https://dl.bintray.com/android/android-tools' }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-    }
-}
-
 apply plugin: 'com.android.library'
 
-def DEFAULT_COMPILE_SDK_VERSION = 28
-def DEFAULT_BUILD_TOOLS_VERSION = "28.0.3"
-def DEFAULT_TARGET_SDK_VERSION = 28
-
 android {
-    compileSdkVersion rootProject.hasProperty('compileSdkVersion') ? rootProject.compileSdkVersion : DEFAULT_COMPILE_SDK_VERSION
-    buildToolsVersion rootProject.hasProperty('buildToolsVersion') ? rootProject.buildToolsVersion : DEFAULT_BUILD_TOOLS_VERSION
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion rootProject.hasProperty('targetSdkVersion') ? rootProject.targetSdkVersion : DEFAULT_TARGET_SDK_VERSION
+        targetSdkVersion 22
         versionCode 1
         versionName "0.1.0"
         ndk {
@@ -35,17 +15,6 @@ android {
     }
 }
 
-repositories {
-    google()
-    jcenter()
-    mavenLocal()
-    mavenCentral()
-    maven { url "$rootDir/../node_modules/react-native/android" }
-    maven { url 'https://maven.google.com' }
-    maven { url "https://jitpack.io" }
-    maven { url 'https://dl.bintray.com/android/android-tools' }
-}
-
 dependencies {
-    implementation 'com.facebook.react:react-native:+'
+    compile "com.facebook.react:react-native:+"
 }
