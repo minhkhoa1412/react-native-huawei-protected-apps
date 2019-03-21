@@ -23,6 +23,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.Promise;
+import android.content.ComponentName;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -42,9 +43,10 @@ public class HuaweiProtectedAppsModule extends ReactContextBaseJavaModule implem
 
     @ReactMethod
     public void AlertIfHuaweiDevice() {
+        ReactApplicationContext context = getReactApplicationContext();
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
-        startActivity(intent);
+        context.startActivity(intent);
     }
 
     private boolean isCallable(Intent intent) {
