@@ -22,6 +22,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.bridge.Promise;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -40,54 +41,16 @@ public class HuaweiProtectedAppsModule extends ReactContextBaseJavaModule implem
     }
 
     @ReactMethod
-    public void AlertIfHuaweiDevice(String title, String message, String dontShowAgainText, String positiveText, String negativeText) {
-        // read "do not show again" flag
-        final SharedPreferences settings = this.getCurrentActivity().getSharedPreferences("ProtectedApps",Context.MODE_PRIVATE);
-        final String saveIfSkip = "skipProtectedAppsMessage";
-        boolean skipMessage = settings.getBoolean(saveIfSkip, false);
-        // Show dialog only when "do not show again" hasn't been enabled yet
-        if (!skipMessage) {
-            final SharedPreferences.Editor editor = settings.edit();
+    public void AlertIfHuaweiDevice(final Promise promise) {
+        if (1) {
             Intent intent = new Intent();
             // Check if intent of the Huawei protected apps activity is callable
             intent.setClassName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity");
             if (isCallable(intent)) {
-                // Prepare dialog
-                final AppCompatCheckBox dontShowAgain = new AppCompatCheckBox(this.getCurrentActivity());
-                dontShowAgain.setText(dontShowAgainText);
-                dontShowAgain.setLeft(20);
-                dontShowAgain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        editor.putBoolean(saveIfSkip, isChecked);
-                        editor.apply();
-                    }
-                });
-
-                final RelativeLayout layout = new RelativeLayout(this.getCurrentActivity());
-                layout.setPadding(50,50,0,0);
-                layout.addView(dontShowAgain);
-
-                new AlertDialog.Builder(this.getCurrentActivity())
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle(title)
-                        .setMessage(message)
-                        .setView(layout)
-                        .setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Launch huawei Protected Apps Activity
-                                huaweiProtectedApps();
-                                //disable dialog when user click protector app only one time
-                                editor.putBoolean(saveIfSkip, true);
-                                editor.apply();
-                            }
-                        })
-                        .setNegativeButton(negativeText, null)
-                        .show();
+                huaweiProtectedApps();
             } else {
                 // Save "do not show again" flag automatically for non-Huawei devices to prevent unnecessary checks
-                editor.putBoolean(saveIfSkip, true);
-                editor.apply();
+                promise.resolve(false)
             }
         }
     }
